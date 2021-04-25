@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import {weatherAPI} from "../../API/api";
 
 
 class Comp1 extends Component {
@@ -7,8 +8,8 @@ class Comp1 extends Component {
         super(props);
         this.state = {
             citys: [
-                {id: 1, name: 'Sum', temp: 10},
-                {id: 2, name: 'Kha', temp: 12}
+                // {id: 1, name: 'Sum', temp: 10},
+                // {id: 2, name: 'Kha', temp: 12}
             ],
             newCityText: ''
         }
@@ -21,24 +22,21 @@ class Comp1 extends Component {
     addCity = () => {
         this.setState(state => {
             const city = state.newCityText;
-            debugger
+            weatherAPI.getWeather(city)
+                .then(data => {
+                    this.setState({...state, citys: [...state.citys, {id: data.id, name: data.name, temp: data.main.temp}]})});
+
             return {
                 ...state,
-                citys: [...state.citys, {id: 3, name: city, temp: 20}],
-                newCityText: '',
+                newCityText : '',
             };
-
-        });
-        console.log(this.state)
+        })
     };
 
     removeCity = (id) => {
-        this.setState(state => {
-            const city = state.citys.filter(item => item.id !== id);
-            return {
-                citys,
-            };
-        });
+        this.setState({
+            citys: this.state.citys.filter(item => item.id !== id)
+        })
     };
 
     render() {
@@ -67,6 +65,5 @@ class Comp1 extends Component {
         );
     }
 }
-
 
 export default Comp1;
