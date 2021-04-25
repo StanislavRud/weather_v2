@@ -7,10 +7,7 @@ class Comp1 extends Component {
 
         super(props);
         this.state = {
-            citys: [
-                // {id: 1, name: 'Sum', temp: 10},
-                // {id: 2, name: 'Kha', temp: 12}
-            ],
+            citys: [],
             newCityText: ''
         }
     }
