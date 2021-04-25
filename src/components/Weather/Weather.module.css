@@ -1,0 +1,14 @@
+.main_weather {
+    list-style: none;
+
+}
+
+.city {
+    border: 1px solid black;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    height: 30px;
+    margin-top: 20px;
+}
