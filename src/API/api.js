@@ -15,4 +15,10 @@ export const weatherAPI = {
                 return response.data
             });
     },
+    getHourlyWeather(lat, lon) {
+        return instance.get(`onecall?lat=${lat}&lon=${lon}&exclude=hourly&units=metric&appid=${key}`)
+            .then(response => {
+                return response.data
+            });
+    }
 };
