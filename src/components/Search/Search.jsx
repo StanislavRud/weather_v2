@@ -1,8 +1,10 @@
 import React from 'react';
+import style from './Search.module.css'
 
 const Search = (props) => {
+
     return (
-        <form>
+        <form className={style.form}>
             <input type="text"
                    value={props.newCityText}
                    onChange={props.onChangeCity}

@@ -3,8 +3,8 @@ import './App.css';
 import Search from "./components/Search/Search";
 import {weatherAPI} from "./API/api";
 import Weather from "./components/Weather/Weather";
-import MoreWeather from "./components/MoreWeather/MoreWeather";
 import {Route} from "react-router-dom";
+import CardContainer from "./components/Card/CardContainer";
 
 class App extends Component {
 
@@ -13,7 +13,7 @@ class App extends Component {
         super(props);
         this.state = {
             citys: [],
-            newCityText: ''
+            newCityText: '',
         }
     }
 
@@ -39,7 +39,8 @@ class App extends Component {
                             tempMax: data.main.temp_max,
                             pressure: data.main.pressure,
                             lat: data.coord.lat,
-                            lon: data.coord.lon
+                            lon: data.coord.lon,
+                            daily: data.daily
                         }]
                     })
                 });
@@ -58,31 +59,32 @@ class App extends Component {
     };
 
 
-    moreInfo = (id) => {
+    moreWeather = (id) => {
 
+        let city = this.state.citys.filter(item => item.id === id);
+        debugger
 
-        let lat = this.state.citys.filter(item => item.id == id).lat;
-        let lon = this.state.citys.filter(item => item.id == id).lon
-
-        weatherAPI.getHourlyWeather(lat, lon)
-             .then(data => {console.log(data) })
-
-    }
+    };
 
 
     render() {
+
         return (
             <div className="App">
                 <h1>Weather APP</h1>
                 <Search newCityText={this.state.newCityText}
                         onChangeCity={this.onChangeCity.bind(this)}
                         addCity={this.addCity.bind(this)}/>
-                <Route path='/'
-                       render={() => <Weather citys={this.state.citys}
-                                              removeCity={this.removeCity.bind(this)}
-                                              moreInfo={this.moreInfo.bind(this)}/>}/>
-                <Route path='/moreInfo'
-                       render={() => <MoreWeather />}/>
+
+                <div className='wrapper'>
+                    <Route path='/'
+                           render={() => <Weather citys={this.state.citys}
+                                                  removeCity={this.removeCity.bind(this)}
+                                                  hourlyWeather={this.moreWeather.bind(this)}/>}/>
+                    <Route path='/info'
+                           render={() => <CardContainer />}/>
+                </div>
+
             </div>
         );
     }
