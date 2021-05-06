@@ -11,3 +11,7 @@
     justify-content: space-around;
     margin-top: 20px;
 }
+
+.clear_sky {
+    background: url("https://atn.ua/sites/default/files/pogoda_4.jpg");
+}

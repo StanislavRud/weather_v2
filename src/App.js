@@ -4,7 +4,7 @@ import Search from "./components/Search/Search";
 import {weatherAPI} from "./API/api";
 import Weather from "./components/Weather/Weather";
 import {Route} from "react-router-dom";
-import CardContainer from "./components/Card/CardContainer";
+import Card from "./components/Card/Card";
 
 class App extends Component {
 
@@ -14,6 +14,9 @@ class App extends Component {
         this.state = {
             citys: [],
             newCityText: '',
+            current: [],
+            week: [],
+            name: ''
         }
     }
 
@@ -59,10 +62,34 @@ class App extends Component {
     };
 
 
-    moreWeather = (id) => {
-
+    moreWeather = (id, name) => {
         let city = this.state.citys.filter(item => item.id === id);
-        debugger
+        console.log(city);
+        this.setState({
+            current: [],
+            week: [],
+            name: null
+        });
+
+        this.setState(state => {
+            weatherAPI.getHourlyWeather(city[0].lat, city[0].lon)
+                .then(data => {
+                    this.setState({
+                        current: [...state.current, {
+                            temp: data.current.temp,
+                            feelsLike: data.current.feels_like,
+                            img: data.current.weather[0].icon,
+                            description: data.current.weather[0].description,
+                            wind: data.current.wind_speed
+                        }],
+                        week: data.daily,
+                        name: name
+                    })
+                });
+            return {
+                state,
+            }
+        })
 
     };
 
@@ -81,8 +108,8 @@ class App extends Component {
                            render={() => <Weather citys={this.state.citys}
                                                   removeCity={this.removeCity.bind(this)}
                                                   hourlyWeather={this.moreWeather.bind(this)}/>}/>
-                    <Route path='/info'
-                           render={() => <CardContainer />}/>
+                    <Route path='/info/:id?'
+                           render={() => <Card current={this.state.current} date={this.state.week} name={this.state.name}/>}/>
                 </div>
 
             </div>

@@ -14,7 +14,7 @@ const Card = (props) => {
                 <ul className={style.current}>
                     {props.current.map(item => (
                         <li key={item.id}>
-                            <h5 className="display-5 text-muted">Sumy, UA</h5>
+                            <h5 className="display-5 text-muted">{props.name}, UA</h5>
                             <h2>Temp:{Math.floor(item.temp)}°C</h2>
                             <p>Feels like: {Math.floor(item.feelsLike)}°C</p>
                             <img src={`http://openweathermap.org/img/w/${item.img}.png`} alt=""/>
