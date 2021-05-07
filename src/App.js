@@ -3,7 +3,6 @@ import './App.css';
 import Search from "./components/Search/Search";
 import {weatherAPI} from "./API/api";
 import Weather from "./components/Weather/Weather";
-import {Route} from "react-router-dom";
 import Card from "./components/Card/Card";
 
 class App extends Component {
@@ -16,7 +15,8 @@ class App extends Component {
             newCityText: '',
             current: [],
             week: [],
-            name: ''
+            name: '',
+            notFound: null
         }
     }
 
@@ -26,31 +26,34 @@ class App extends Component {
 
     addCity = (e) => {
         e.preventDefault();
+        this.moreWeatherClose();
         this.setState(state => {
             const city = state.newCityText;
             weatherAPI.getWeather(city)
                 .then(data => {
-                    this.setState({
-                        citys: [...state.citys, {
-                            id: data.id,
-                            name: data.name,
-                            temp: data.main.temp,
-                            img: data.weather[0].icon,
-                            description: data.weather[0].description,
-                            feelsLike: data.main.feels_like,
-                            tempMin: data.main.temp_min,
-                            tempMax: data.main.temp_max,
-                            pressure: data.main.pressure,
-                            lat: data.coord.lat,
-                            lon: data.coord.lon,
-                            daily: data.daily
-                        }]
-                    })
-                });
+                        this.setState({
+                            citys: [...state.citys, {
+                                id: data.id,
+                                name: data.name,
+                                temp: data.main.temp,
+                                img: data.weather[0].icon,
+                                description: data.weather[0].description,
+                                feelsLike: data.main.feels_like,
+                                tempMin: data.main.temp_min,
+                                tempMax: data.main.temp_max,
+                                pressure: data.main.pressure,
+                                lat: data.coord.lat,
+                                lon: data.coord.lon,
+                                daily: data.daily
+                            }]
+                        })
+                })
+                .then(data => console.log(data));
 
             return {
                 ...state,
                 newCityText: '',
+
             };
         })
     };
@@ -58,13 +61,13 @@ class App extends Component {
     removeCity = (id) => {
         this.setState({
             citys: this.state.citys.filter(item => item.id !== id)
-        })
+        });
+        this.moreWeatherClose()
     };
 
 
     moreWeather = (id, name) => {
         let city = this.state.citys.filter(item => item.id === id);
-        console.log(city);
         this.setState({
             current: [],
             week: [],
@@ -93,10 +96,19 @@ class App extends Component {
 
     };
 
+    moreWeatherClose = () => {
+        this.setState({
+            current: [],
+            week: [],
+            name: null
+        });
+    };
+
 
     render() {
 
         return (
+
             <div className="App">
                 <h1>Weather APP</h1>
                 <Search newCityText={this.state.newCityText}
@@ -104,12 +116,15 @@ class App extends Component {
                         addCity={this.addCity.bind(this)}/>
 
                 <div className='wrapper'>
-                    <Route path='/'
-                           render={() => <Weather citys={this.state.citys}
-                                                  removeCity={this.removeCity.bind(this)}
-                                                  hourlyWeather={this.moreWeather.bind(this)}/>}/>
-                    <Route path='/info/:id?'
-                           render={() => <Card current={this.state.current} date={this.state.week} name={this.state.name}/>}/>
+
+                    <Weather citys={this.state.citys}
+                             removeCity={this.removeCity.bind(this)}
+                             hourlyWeather={this.moreWeather.bind(this)}/>
+
+                    <Card current={this.state.current}
+                          date={this.state.week}
+                          name={this.state.name}
+                          moreWeatherClose={this.moreWeatherClose.bind(this)}/>
                 </div>
 
             </div>

@@ -1,6 +1,5 @@
 import React from 'react';
 import style from "./Card.module.css";
-import {NavLink} from "react-router-dom";
 
 const Card = (props) => {
 
@@ -8,18 +7,27 @@ const Card = (props) => {
     // const weekdayName = new Date(ms).toLocaleString('ru', {weekday: 'long'});
     return (
         <div>
-            <NavLink to='/' >Home</NavLink>
-
             <div className="current">
                 <ul className={style.current}>
                     {props.current.map(item => (
                         <li key={item.id}>
-                            <h5 className="display-5 text-muted">{props.name}, UA</h5>
-                            <h2>Temp:{Math.floor(item.temp)}°C</h2>
-                            <p>Feels like: {Math.floor(item.feelsLike)}°C</p>
-                            <img src={`http://openweathermap.org/img/w/${item.img}.png`} alt=""/>
-                            <h4>{item.description}</h4>
-                            <p>Wind: {Math.floor(item.wind)} m/s</p>
+                            <div className={style.close} onClick={props.moreWeatherClose} >
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <div className={style.main}>
+                                <h2>{props.name}</h2>
+                                <h2>{Math.floor(item.temp)}°C</h2>
+                            </div>
+                            <div className="img">
+                                <img src={`http://openweathermap.org/img/w/${item.img}.png`} alt=""/>
+                            </div>
+                            <div className="description">
+                                <p>Feels like: {Math.floor(item.feelsLike)}°C</p>
+                                <h4>{item.description}</h4>
+                                <p>Wind: {Math.floor(item.wind)} m/s</p>
+                            </div>
+
                         </li>
                     ))}
                 </ul>
@@ -27,9 +35,9 @@ const Card = (props) => {
             </div>
             <ul className={style.week}>
                 {props.date.map(day =>
-                    <li className={style.day}>{new Date(day.dt * 1000).toDateString()}
+                    <li  className={style.day}>{new Date(day.dt * 1000).toDateString()}
                         <div><img src={`http://openweathermap.org/img/w/${day.weather[0].icon}.png`} alt=""/></div>
-                        <div>{day.weather[0].description}</div>
+                        <h4>{day.weather[0].description}</h4>
                         <p>Day: {Math.floor(day.temp.day)} °C</p>
                         <p>Night: {Math.floor(day.temp.night)} °C</p>
                     </li>)

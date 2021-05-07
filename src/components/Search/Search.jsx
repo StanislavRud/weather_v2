@@ -9,10 +9,11 @@ const Search = (props) => {
                    value={props.newCityText}
                    onChange={props.onChangeCity}
                    onDragEnter={props.addCity}
+                   placeholder='Input your city'
             />
             <button
                 onClick={props.addCity}
-            >Add City
+            >Search City
             </button>
         </form>
     );

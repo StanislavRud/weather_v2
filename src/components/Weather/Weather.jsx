@@ -16,9 +16,11 @@ const Weather = (props) => {
                         <h2>{Math.floor(item.temp)}°C</h2>
                         <img src={`http://openweathermap.org/img/w/${item.img}.png`} alt=""/>
                         <h4>{item.description}</h4>
-                        <NavLink to={'/info/' + item.id} onClick={(e) => {e.preventDefault()
-                            props.hourlyWeather(item.id, item.name)
-                        }}>More</NavLink>
+                        <NavLink to={'/info' + item.id}>
+                            <button onClick={e => {e.preventDefault()
+                                props.hourlyWeather(item.id, item.name)
+                            }}>More</button>
+                        </NavLink>
 
                         <button
                             onClick={() => props.removeCity(item.id)}
