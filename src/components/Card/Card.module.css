@@ -2,17 +2,19 @@
     list-style: none;
     display: flex;
     justify-content: left;
+    margin-top: 25px;
 }
 
 .current li {
     border: 1px solid black;
     border-radius: 5px;
-    width: 30%;
+    /*width: 30%;*/
     margin: 0 auto;
     padding: 10px;
 
 
 }
+
 
 li p, h4 {
     margin: 0;
@@ -31,6 +33,12 @@ li p, h4 {
     display: flex;
     margin: 0 auto;
     justify-content: space-around;
+}
+
+.week li {
+    font-size: 12px;
+    margin-right: 10px;
+    border: none;
 }
 
 

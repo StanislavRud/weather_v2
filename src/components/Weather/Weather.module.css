@@ -12,6 +12,10 @@
     margin-top: 20px;
 }
 
+.city button {
+    padding: 5px;
+}
+
 .clear_sky {
     background: url("https://atn.ua/sites/default/files/pogoda_4.jpg");
 }

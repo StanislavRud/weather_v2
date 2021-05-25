@@ -27,23 +27,24 @@ const Card = (props) => {
                                 <h4>{item.description}</h4>
                                 <p>Wind: {Math.floor(item.wind)} m/s</p>
                             </div>
+                            <ul className={style.week}>
+                                {props.date.map(day =>
+                                    <li  className={style.day}>{new Date(day.dt * 1000).toDateString()}
+                                        <div><img src={`http://openweathermap.org/img/w/${day.weather[0].icon}.png`} alt=""/></div>
+                                        <h4>{day.weather[0].description}</h4>
+                                        <p>Day: {Math.floor(day.temp.day)} °C</p>
+                                        <p>Night: {Math.floor(day.temp.night)} °C</p>
+                                    </li>)
+                                }
+
+                            </ul>
 
                         </li>
                     ))}
                 </ul>
 
             </div>
-            <ul className={style.week}>
-                {props.date.map(day =>
-                    <li  className={style.day}>{new Date(day.dt * 1000).toDateString()}
-                        <div><img src={`http://openweathermap.org/img/w/${day.weather[0].icon}.png`} alt=""/></div>
-                        <h4>{day.weather[0].description}</h4>
-                        <p>Day: {Math.floor(day.temp.day)} °C</p>
-                        <p>Night: {Math.floor(day.temp.night)} °C</p>
-                    </li>)
-                }
 
-            </ul>
         </div>
 
     );
