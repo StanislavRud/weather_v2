@@ -16,7 +16,9 @@ class App extends Component {
             current: [],
             week: [],
             name: '',
-            notFound: null
+            notFound: null,
+            currentTime: '',
+            currentDate: ''
         }
     }
 
@@ -31,22 +33,22 @@ class App extends Component {
             const city = state.newCityText;
             weatherAPI.getWeather(city)
                 .then(data => {
-                        this.setState({
-                            citys: [...state.citys, {
-                                id: data.id,
-                                name: data.name,
-                                temp: data.main.temp,
-                                img: data.weather[0].icon,
-                                description: data.weather[0].description,
-                                feelsLike: data.main.feels_like,
-                                tempMin: data.main.temp_min,
-                                tempMax: data.main.temp_max,
-                                pressure: data.main.pressure,
-                                lat: data.coord.lat,
-                                lon: data.coord.lon,
-                                daily: data.daily
-                            }]
-                        })
+                    this.setState({
+                        citys: [...state.citys, {
+                            id: data.id,
+                            name: data.name,
+                            temp: data.main.temp,
+                            img: data.weather[0].icon,
+                            description: data.weather[0].description,
+                            feelsLike: data.main.feels_like,
+                            tempMin: data.main.temp_min,
+                            tempMax: data.main.temp_max,
+                            pressure: data.main.pressure,
+                            lat: data.coord.lat,
+                            lon: data.coord.lon,
+                            daily: data.daily
+                        }]
+                    })
                 })
                 .then(data => console.log(data));
 
@@ -67,6 +69,7 @@ class App extends Component {
 
 
     moreWeather = (id, name) => {
+        setInterval(() => {this.getDate()}, 1000);
         let city = this.state.citys.filter(item => item.id === id);
         this.setState({
             current: [],
@@ -104,6 +107,13 @@ class App extends Component {
         });
     };
 
+    getDate = () => {
+        this.setState({
+            currentTime: new Date().toLocaleTimeString('en-GB'),
+            currentDate: new Date().toDateString()
+        })
+    }
+
 
     render() {
 
@@ -124,7 +134,10 @@ class App extends Component {
                     <Card current={this.state.current}
                           date={this.state.week}
                           name={this.state.name}
-                          moreWeatherClose={this.moreWeatherClose.bind(this)}/>
+                          moreWeatherClose={this.moreWeatherClose.bind(this)}
+                          currentTime={this.state.currentTime}
+                          currentDate={this.state.currentDate}
+                    />
                 </div>
 
             </div>

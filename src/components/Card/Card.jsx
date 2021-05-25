@@ -11,21 +11,29 @@ const Card = (props) => {
                 <ul className={style.current}>
                     {props.current.map(item => (
                         <li key={item.id}>
-                            <div className={style.close} onClick={props.moreWeatherClose} >
-                                <span></span>
-                                <span></span>
-                            </div>
                             <div className={style.main}>
-                                <h2>{props.name}</h2>
-                                <h2>{Math.floor(item.temp)}°C</h2>
+                                <div className={style.main_weather}>
+                                    <h2>{props.name}</h2>
+                                    <h2>{Math.floor(item.temp)}°C</h2>
+                                </div>
+                                <div className={style.close} onClick={props.moreWeatherClose} >
+                                    <span></span>
+                                    <span></span>
+                                </div>
                             </div>
-                            <div className="img">
-                                <img src={`http://openweathermap.org/img/w/${item.img}.png`} alt=""/>
-                            </div>
-                            <div className="description">
-                                <p>Feels like: {Math.floor(item.feelsLike)}°C</p>
-                                <h4>{item.description}</h4>
-                                <p>Wind: {Math.floor(item.wind)} m/s</p>
+                            <div className={style.weather_now}>
+                                <div className={style.date}>
+                                    <h2>{props.currentDate}</h2>
+                                    <h2>{props.currentTime}</h2>
+                                </div>
+                                <div className="description">
+                                    <div className="img">
+                                        <img src={`http://openweathermap.org/img/w/${item.img}.png`} alt=""/>
+                                    </div>
+                                    <p>Feels like: {Math.floor(item.feelsLike)}°C</p>
+                                    <h4>{item.description}</h4>
+                                    <p>Wind: {Math.floor(item.wind)} m/s</p>
+                                </div>
                             </div>
                             <ul className={style.week}>
                                 {props.date.map(day =>
